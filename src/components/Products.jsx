@@ -7,15 +7,15 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Carousel from 'react-bootstrap/Carousel';
 import '../styles/Header.css';
-import '../styles/Products.css'
-
-
-
+import '../styles/Products.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Header() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
-  const [category, setCategory] = useState(''); // State to track selected category
+  const [category, setCategory] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetchData();
@@ -28,21 +28,41 @@ function Header() {
       .catch((error) => setError(error));
   };
 
-  const filterByCategory = () => {
-    if (category === '') return data; // Show all products if no category is selected
-    return data.filter(item => {
-      if (category === 'Men\'s Clothing' && item.category === "men's clothing") return true;
-      if (category === 'Women\'s Clothing' && item.category === "women's clothing") return true;
-      if (category === 'Jewellery' && item.category === "jewelery") return true;
-      if (category === 'Electronics' && item.category === "electronics") return true;
-      if (category === 'Sports' && item.category === "sports") return true;
-      return false;
-    });
+  
+  const filterProducts = () => {
+    let filteredData = data;
+
+    
+    if (category !== '') {
+      filteredData = filteredData.filter((item) => {
+        if (category === "Men's Clothing" && item.category === "men's clothing") return true;
+        if (category === "Women's Clothing" && item.category === "women's clothing") return true;
+        if (category === 'Jewellery' && item.category === 'jewelery') return true;
+        if (category === 'Electronics' && item.category === 'electronics') return true;
+        if (category === 'Sports' && item.category === 'sports') return true;
+        return false;
+      });
+    }
+
+    
+    if (searchQuery !== '') {
+      filteredData = filteredData.filter((item) =>
+        item.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    return filteredData;
+  };
+
+  
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchQuery(searchInput);
   };
 
   return (
     <>
-      {/* Header Card */}
+      
       <Card className="card-container">
         <Card.Body className="header-text">
           <h1>
@@ -52,37 +72,63 @@ function Header() {
         </Card.Body>
       </Card>
 
-      {/* Navigation Bar */}
+      
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
         <Container>
           <Navbar.Brand href="/">BuyWise</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/"><FaHome /> Home</Nav.Link>
+              <Nav.Link href="/">
+                <FaHome /> Home
+              </Nav.Link>
               <Dropdown>
                 <Dropdown.Toggle variant="light" id="dropdown-basic">
                   <FaProductHunt /> Products
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => setCategory("Men's Clothing")}>Men's Clothing</Dropdown.Item>
-                  <Dropdown.Item onClick={() => setCategory("Women's Clothing")}>Women's Clothing</Dropdown.Item>
-                  <Dropdown.Item onClick={() => setCategory('Jewellery')}>Jewellery</Dropdown.Item>
-                  <Dropdown.Item onClick={() => setCategory('Electronics')}>Electronics</Dropdown.Item>
-                  <Dropdown.Item onClick={() => setCategory('Sports')}>Sports</Dropdown.Item>
+                  <Dropdown.Item onClick={() => setCategory("Men's Clothing")}>
+                    Men's Clothing
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setCategory("Women's Clothing")}>
+                    Women's Clothing
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setCategory('Jewellery')}>
+                    Jewellery
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setCategory('Electronics')}>
+                    Electronics
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setCategory('Sports')}>
+                    Sports
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              <Nav.Link href="/about"><FaInfoCircle /> About</Nav.Link>
+              <Nav.Link href="/about">
+                <FaInfoCircle /> About
+              </Nav.Link>
               <Nav.Link href="/contact">Contact</Nav.Link>
             </Nav>
 
-            {/* Search Bar */}
-            <Form inline className="search-container">
-              <FormControl type="text" placeholder="Search" className="search-input" />
-              <Button variant="outline-success" className="search-button">Search</Button>
+            
+            <Form inline className="search-container" onSubmit={handleSearch}>
+              <FormControl
+                type="text"
+                placeholder="Search"
+                className="search-input"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+              <Button
+                variant="outline-success"
+                className="search-button"
+                onClick={handleSearch}
+              >
+                Search
+              </Button>
             </Form>
 
-            {/* Auth Links */}
+          
             <Nav>
               <Nav.Link href="/login">Login</Nav.Link>
               <Nav.Link href="/signup">Sign Up</Nav.Link>
@@ -91,7 +137,7 @@ function Header() {
         </Container>
       </Navbar>
 
-      {/* Carousel */}
+      
       <Carousel className="custom-carousel">
         <Carousel.Item interval={1000}>
           <img
@@ -130,13 +176,13 @@ function Header() {
         </Carousel.Item>
       </Carousel>
 
-      {/* Product List */}
+      
       <div className="products-container">
         {error ? (
           <p>Error fetching products: {error.message}</p>
         ) : (
           <ul className="products-list">
-            {filterByCategory().map((item) => (
+            {filterProducts().map((item) => (
               <li key={item.id} className="product-card">
                 <img
                   src={item.image}

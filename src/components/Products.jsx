@@ -1,16 +1,48 @@
-import React from 'react'; // Add this line
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Card from 'react-bootstrap/Card';
 import { Nav, Form, FormControl, Button, Dropdown } from 'react-bootstrap';
 import { FaHome, FaInfoCircle, FaProductHunt } from 'react-icons/fa';
-import '../styles/Header.css';
-
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Carousel from 'react-bootstrap/Carousel';
+import '../styles/Header.css';
+import '../styles/Products.css'
+
+
+
 
 function Header() {
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+  const [category, setCategory] = useState(''); // State to track selected category
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    axios
+      .get('https://fakestoreapi.com/products')
+      .then((response) => setData(response.data))
+      .catch((error) => setError(error));
+  };
+
+  const filterByCategory = () => {
+    if (category === '') return data; // Show all products if no category is selected
+    return data.filter(item => {
+      if (category === 'Men\'s Clothing' && item.category === "men's clothing") return true;
+      if (category === 'Women\'s Clothing' && item.category === "women's clothing") return true;
+      if (category === 'Jewellery' && item.category === "jewelery") return true;
+      if (category === 'Electronics' && item.category === "electronics") return true;
+      if (category === 'Sports' && item.category === "sports") return true;
+      return false;
+    });
+  };
+
   return (
     <>
+      {/* Header Card */}
       <Card className="card-container">
         <Card.Body className="header-text">
           <h1>
@@ -20,9 +52,10 @@ function Header() {
         </Card.Body>
       </Card>
 
+      {/* Navigation Bar */}
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand href="/"></Navbar.Brand>
+          <Navbar.Brand href="/">BuyWise</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -32,11 +65,11 @@ function Header() {
                   <FaProductHunt /> Products
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item href="#/mens-clothing">Men's Clothing</Dropdown.Item>
-                  <Dropdown.Item href="#/womens-clothing">Women's Clothing</Dropdown.Item>
-                  <Dropdown.Item href="#/jewellery">Jewellery</Dropdown.Item>
-                  <Dropdown.Item href="#/electronics">Electronics</Dropdown.Item>
-                  <Dropdown.Item href="#/sports">Sports</Dropdown.Item>
+                  <Dropdown.Item onClick={() => setCategory("Men's Clothing")}>Men's Clothing</Dropdown.Item>
+                  <Dropdown.Item onClick={() => setCategory("Women's Clothing")}>Women's Clothing</Dropdown.Item>
+                  <Dropdown.Item onClick={() => setCategory('Jewellery')}>Jewellery</Dropdown.Item>
+                  <Dropdown.Item onClick={() => setCategory('Electronics')}>Electronics</Dropdown.Item>
+                  <Dropdown.Item onClick={() => setCategory('Sports')}>Sports</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               <Nav.Link href="/about"><FaInfoCircle /> About</Nav.Link>
@@ -49,6 +82,7 @@ function Header() {
               <Button variant="outline-success" className="search-button">Search</Button>
             </Form>
 
+            {/* Auth Links */}
             <Nav>
               <Nav.Link href="/login">Login</Nav.Link>
               <Nav.Link href="/signup">Sign Up</Nav.Link>
@@ -57,6 +91,7 @@ function Header() {
         </Container>
       </Navbar>
 
+      {/* Carousel */}
       <Carousel className="custom-carousel">
         <Carousel.Item interval={1000}>
           <img
@@ -69,14 +104,13 @@ function Header() {
             <p>Save up to $720</p>
           </Carousel.Caption>
         </Carousel.Item>
-        
+
         <Carousel.Item interval={500}>
-          <picture data-test-id="sanity-image" className="flex w-full bg-puma-black-800 pointer-events-none absolute inset-0 h-full" style={{ backgroundImage: 'url("data:image/jpeg;base64,/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAHABQDASIAAhEBAxEB/8QAFwABAAMAAAAAAAAAAAAAAAAAAAMGB//EACIQAAEDAwMFAAAAAAAAAAAAAAMAAQIEBREGEiEHIiUx0f/EABYBAQEBAAAAAAAAAAAAAAAAAAQCA//EAB0RAQABAwUAAAAAAAAAAAAAAAEAAgMSESExYbH/2gAMAwEAAhEDEQA/AINL6UlSjtBzw8iMvc8ZNtaH1WTqTRNVWUIjPtG545ducIiFlmizaxThsdeTH9SWJqO7FCKMZQizYf1nhERU8xtLqDP/2Q==")', backgroundSize: 'cover' }}>
-            <source srcSet="https://cdn.sanity.io/images/qa41whrn/prod/8bf879b51210606ee75989723c789b98ede86e93-6000x2167.jpg?w=2160&q=80&auto=format" media="(min-width: 1024px)" />
-            <source srcSet="https://cdn.sanity.io/images/qa41whrn/prod/8bf879b51210606ee75989723c789b98ede86e93-6000x2167.jpg?w=1440&q=80&auto=format" media="(min-width: 540px) and (max-width: 1023px)" />
-            <source srcSet="https://cdn.sanity.io/images/qa41whrn/prod/48e631202dfefc06712ad2ce03e57b73629e9976-2083x2708.jpg?w=720&q=80&auto=format" media="(max-width: 539px)" />
-            <img srcSet="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" className="object-cover w-full h-full" alt="" loading="eager" decoding="auto" />
-          </picture>
+          <img
+            className="d-block w-100"
+            src="https://cdn.sanity.io/images/qa41whrn/prod/8bf879b51210606ee75989723c789b98ede86e93-6000x2167.jpg?w=1440&q=80&auto=format"
+            alt="Puma: Empowering Your Every Move"
+          />
           <Carousel.Caption>
             <h3>Puma: Empowering Your Every Move</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -85,9 +119,9 @@ function Header() {
 
         <Carousel.Item>
           <img
-            className="img-responsive d-block w-100"
-            alt=""
+            className="d-block w-100"
             src="https://static.malabargoldanddiamonds.com/media/wysiwyg/store_pages/india/storepage_banner.jpg"
+            alt="Malabar Gold & Diamonds"
           />
           <Carousel.Caption>
             <h3>Malabar Gold & Diamonds</h3>
@@ -95,6 +129,29 @@ function Header() {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
+
+      {/* Product List */}
+      <div className="products-container">
+        {error ? (
+          <p>Error fetching products: {error.message}</p>
+        ) : (
+          <ul className="products-list">
+            {filterByCategory().map((item) => (
+              <li key={item.id} className="product-card">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="product-image"
+                />
+                <h1>{item.title}</h1>
+                <p>{item.description}</p>
+                <h3>${item.price}</h3>
+                <button type="button">BUY</button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </>
   );
 }

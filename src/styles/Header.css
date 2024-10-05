@@ -1,0 +1,113 @@
+/* Styles for the entire body */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+/* Header Text Styles */
+.header-text {
+  font-size: 40px;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(90deg, #ff7e5f, #feb47b, #86a8e7, #91eae4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow 2s infinite alternate, gradientShift 5s ease-in-out infinite;
+}
+
+.header-text:hover {
+  cursor: pointer; 
+  color: #feb47b; 
+  animation: glow 1s infinite alternate, gradientShift 3s ease-in-out infinite;
+}
+
+/* Keyframes for Animations */
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px #ff7e5f, 0 0 10px #feb47b, 0 0 15px rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 8px #86a8e7, 0 0 12px #91eae4, 0 0 18px rgba(255, 255, 255, 0.7);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Carousel Styles */
+.carousel {
+  overflow: hidden; 
+}
+
+.carousel-container {
+  margin-top: 10px; 
+  margin-bottom: -20px; 
+}
+
+.carousel-item {
+  height: 500px; 
+}
+
+.carousel-item img {
+  height: 100%; 
+  object-fit: cover; 
+}
+
+/* Search Container Styles */
+.search-container {
+  display: flex; 
+  align-items: center; 
+  gap: 5px; 
+}
+
+.search-input {
+  width: 200px; 
+}
+
+/* Navbar Styles */
+.navbar {
+  padding: 0; 
+}
+
+/* Card Container Styles */
+.card-container {
+  margin-bottom: 0; 
+}
+
+/* Additional Text Styles */
+.header-text h1 {
+  display: flex;
+  align-items: center; 
+}
+
+.buywise-title {
+  font-weight: bold; 
+  font-size: 2rem; 
+}
+
+.tagline {
+  margin-left: 0.5rem; 
+  font-size: 1.2rem; 
+  color: gray; 
+}
+
+.custom-carousel {
+  margin-top: 0.7px; 
+}

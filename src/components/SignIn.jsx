@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './login.css';
+import '../styles/login.css';
 
 const SignIn = () => {
   const handleSignIn = () => {
@@ -8,16 +8,17 @@ const SignIn = () => {
   };
 
   return (
-    <div className="form-container">
-      <form>
+    <div className="login-form-container">
+      <form className='login-form'>
         <h2 style={{fontWeight:'bolder'}}>Login</h2>
         <input type="email" placeholder="Email" required />
         <input type="password" placeholder="Password" required />
         <button type="button" onClick={handleSignIn}>Login</button>
+        <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
       </form>
       
       <div className="link-container">
-        <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+
       </div>
     </div>
   );

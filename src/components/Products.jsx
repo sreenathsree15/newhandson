@@ -10,10 +10,13 @@ import '../styles/Header.css';
 import '../styles/Products.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 function Header() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [category, setCategory] = useState('');
+  const [searchInput, setSearchInput] = useState(''); 
+  const [searchTriggered, setSearchTriggered] = useState(false); 
   const [searchInput, setSearchInput] = useState('');
   const [searchTriggered, setSearchTriggered] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
@@ -32,7 +35,7 @@ function Header() {
   const filterProducts = () => {
     let filteredData = data;
 
-    
+
     if (category !== '') {
       filteredData = filteredData.filter((item) => {
         if (category === "Men's Clothing" && item.category === "men's clothing") return true;
@@ -55,6 +58,9 @@ function Header() {
   };
 
   const handleSearch = (e) => {
+
+    e.preventDefault(); 
+    setSearchTriggered(true); 
     e.preventDefault();
     setSearchTriggered(true);
   };
@@ -107,7 +113,7 @@ function Header() {
               <Nav.Link href="/about">
                 <FaInfoCircle /> About
               </Nav.Link>
-            
+
               <Nav.Link onClick={handleShowModal}>
                 <FaEnvelope /> Contact
               </Nav.Link>
@@ -118,7 +124,11 @@ function Header() {
                 type="text"
                 placeholder="Search"
                 className="search-input"
+
+                value={searchInput} 
+
                 value={searchInput}
+
                 onChange={(e) => setSearchInput(e.target.value)}
               />
             </Form>

@@ -14,9 +14,9 @@ function Header() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [category, setCategory] = useState('');
-  const [searchInput, setSearchInput] = useState(''); // Add state for search input
-  const [searchTriggered, setSearchTriggered] = useState(false); // Add state to check if search is triggered
-  const [showContactModal, setShowContactModal] = useState(false); // State for contact modal
+  const [searchInput, setSearchInput] = useState('');
+  const [searchTriggered, setSearchTriggered] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -32,7 +32,7 @@ function Header() {
   const filterProducts = () => {
     let filteredData = data;
 
-    // Filter by category
+    
     if (category !== '') {
       filteredData = filteredData.filter((item) => {
         if (category === "Men's Clothing" && item.category === "men's clothing") return true;
@@ -44,7 +44,7 @@ function Header() {
       });
     }
 
-    // Only filter by search input if search is triggered
+    
     if (searchInput !== '' && searchTriggered) {
       filteredData = filteredData.filter((item) =>
         item.title.toLowerCase().includes(searchInput.toLowerCase())
@@ -55,8 +55,8 @@ function Header() {
   };
 
   const handleSearch = (e) => {
-    e.preventDefault(); // Prevent default form submission
-    setSearchTriggered(true); // Set the search triggered to true
+    e.preventDefault();
+    setSearchTriggered(true);
   };
 
   const handleCloseModal = () => setShowContactModal(false);
@@ -107,7 +107,7 @@ function Header() {
               <Nav.Link href="/about">
                 <FaInfoCircle /> About
               </Nav.Link>
-              {/* Update Contact link to open modal */}
+            
               <Nav.Link onClick={handleShowModal}>
                 <FaEnvelope /> Contact
               </Nav.Link>
@@ -118,7 +118,7 @@ function Header() {
                 type="text"
                 placeholder="Search"
                 className="search-input"
-                value={searchInput} // Bind searchInput to the form
+                value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
               />
             </Form>

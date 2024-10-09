@@ -55,10 +55,6 @@ function Header() {
   };
 
   
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setSearchQuery(searchInput);
-  };
 
   return (
     <>

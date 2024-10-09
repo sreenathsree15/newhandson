@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
-import { Nav, Form, FormControl, Button, Dropdown } from 'react-bootstrap';
-import { FaHome, FaInfoCircle, FaProductHunt } from 'react-icons/fa';
+import { Nav, Form, FormControl, Button, Dropdown, Modal } from 'react-bootstrap';
+import { FaHome, FaInfoCircle, FaProductHunt, FaEnvelope, FaPhone, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Carousel from 'react-bootstrap/Carousel';
@@ -14,8 +14,9 @@ function Header() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [category, setCategory] = useState('');
-  const [searchInput, setSearchInput] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchInput, setSearchInput] = useState(''); // Add state for search input
+  const [searchTriggered, setSearchTriggered] = useState(false); // Add state to check if search is triggered
+  const [showContactModal, setShowContactModal] = useState(false); // State for contact modal
 
   useEffect(() => {
     fetchData();
@@ -28,11 +29,10 @@ function Header() {
       .catch((error) => setError(error));
   };
 
-  
   const filterProducts = () => {
     let filteredData = data;
 
-    
+    // Filter by category
     if (category !== '') {
       filteredData = filteredData.filter((item) => {
         if (category === "Men's Clothing" && item.category === "men's clothing") return true;
@@ -44,21 +44,26 @@ function Header() {
       });
     }
 
-    
-    if (searchQuery !== '') {
+    // Only filter by search input if search is triggered
+    if (searchInput !== '' && searchTriggered) {
       filteredData = filteredData.filter((item) =>
-        item.title.toLowerCase().includes(searchQuery.toLowerCase())
+        item.title.toLowerCase().includes(searchInput.toLowerCase())
       );
     }
 
     return filteredData;
   };
 
-  
+  const handleSearch = (e) => {
+    e.preventDefault(); // Prevent default form submission
+    setSearchTriggered(true); // Set the search triggered to true
+  };
+
+  const handleCloseModal = () => setShowContactModal(false);
+  const handleShowModal = () => setShowContactModal(true);
 
   return (
     <>
-      
       <Card className="card-container">
         <Card.Body className="header-text">
           <h1>
@@ -68,7 +73,6 @@ function Header() {
         </Card.Body>
       </Card>
 
-      
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
         <Container>
           <Navbar.Brand href="/">BuyWise</Navbar.Brand>
@@ -103,28 +107,22 @@ function Header() {
               <Nav.Link href="/about">
                 <FaInfoCircle /> About
               </Nav.Link>
-              <Nav.Link href="/contact">Contact</Nav.Link>
+              {/* Update Contact link to open modal */}
+              <Nav.Link onClick={handleShowModal}>
+                <FaEnvelope /> Contact
+              </Nav.Link>
             </Nav>
 
-            
             <Form inline className="search-container" onSubmit={handleSearch}>
               <FormControl
                 type="text"
                 placeholder="Search"
                 className="search-input"
-                value={searchInput}
+                value={searchInput} // Bind searchInput to the form
                 onChange={(e) => setSearchInput(e.target.value)}
               />
-              <Button
-                variant="outline-success"
-                className="search-button"
-                onClick={handleSearch}
-              >
-                Search
-              </Button>
             </Form>
 
-          
             <Nav>
               <Nav.Link href="/signin">Login</Nav.Link>
               <Nav.Link href="/signup">Sign Up</Nav.Link>
@@ -133,7 +131,35 @@ function Header() {
         </Container>
       </Navbar>
 
-      
+      <Modal show={showContactModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Contact Us</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>No. 55 Sy No 8 to 14 I & J Block – Ground Floor</p>
+          <p>Embassy Tech Village | Outer Ring Road</p>
+          <p>Devarbisanahalli Varthur, Bengaluru – 560130</p>
+          <p><FaEnvelope /> Email: info@example.com</p>
+          <p><FaPhone /> Phone: +91 9876543210</p>
+          <div>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <FaFacebook size={30} className="me-3" />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <FaInstagram size={30} className="me-3" />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+              <FaTwitter size={30} />
+            </a>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <Carousel className="custom-carousel">
         <Carousel.Item interval={1000}>
           <img
@@ -172,7 +198,6 @@ function Header() {
         </Carousel.Item>
       </Carousel>
 
-      
       <div className="products-container">
         {error ? (
           <p>Error fetching products: {error.message}</p>

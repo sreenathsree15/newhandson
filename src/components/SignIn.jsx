@@ -26,7 +26,7 @@
 // export default SignIn;
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './login.css';
+import '../styles/login.css';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -39,28 +39,17 @@ const SignIn = () => {
   };
 
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit}>
-        <h2 style={{ fontWeight: 'bolder' }}>Login</h2>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
+    <div className="login-form-container">
+      <form className='login-form'>
+        <h2 style={{fontWeight:'bolder'}}>Login</h2>
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Password" required />
+        <button type="button" onClick={handleSignIn}>Login</button>
+        <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
       </form>
       
       <div className="link-container">
-        <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+
       </div>
     </div>
   );

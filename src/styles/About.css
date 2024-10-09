@@ -1,0 +1,92 @@
+/* Main container for the About page */
+.about-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  /* Card styling */
+  .about-card {
+    border: none;
+    background-color: #ffffff;
+    padding: 30px;
+  }
+  
+  /* Page headings */
+  .about-card h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  
+  .about-card h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #34495e;
+    margin-top: 30px;
+    margin-bottom: 15px;
+  }
+  
+  /* Paragraph styling */
+  .about-card p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+  }
+  
+  /* CEO Section */
+  .ceo-section {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    padding: 20px 0;
+    border-top: 1px solid #ecf0f1;
+    border-bottom: 1px solid #ecf0f1;
+  }
+  
+  /* CEO image */
+  .ceo-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 25px;
+    border: 3px solid #2980b9;
+  }
+  
+  /* CEO information styling */
+  .ceo-info h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2980b9;
+    margin-bottom: 10px;
+  }
+  
+  .ceo-info p {
+    font-size: 1rem;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+  }
+  
+  /* Responsive layout for smaller screens */
+  @media (max-width: 768px) {
+    .ceo-section {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .ceo-image {
+      margin-bottom: 15px;
+      margin-right: 0;
+    }
+  
+    .ceo-info {
+      text-align: center;
+    }
+  }
+  

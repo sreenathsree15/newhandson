@@ -4,6 +4,7 @@ import './App.css';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import Products from './components/Products';
+import About from './components/About';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
          <Route path="/" element={<Products />} />
+         <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );

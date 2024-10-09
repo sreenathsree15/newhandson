@@ -57,7 +57,7 @@ function Header() {
 
   const handleSearch = (e) => {
     e.preventDefault(); 
-    setSearchTriggered(true); // Set the search triggered to true
+    setSearchTriggered(true); 
   };
 
   const handleCloseModal = () => setShowContactModal(false);

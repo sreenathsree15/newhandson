@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import { Nav, Form, FormControl, Button, Dropdown, Modal } from 'react-bootstrap';
 import { FaHome, FaInfoCircle, FaProductHunt, FaEnvelope, FaPhone, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
@@ -215,6 +216,10 @@ function Header() {
                 <p>{item.description}</p>
                 <h3>${item.price}</h3>
                 <button type="button">BUY</button>
+                <br></br>
+                <Link to={`/product/${item.id}`}>
+                  <button type="button">View Details</button>
+                </Link>
               </li>
             ))}
           </ul>

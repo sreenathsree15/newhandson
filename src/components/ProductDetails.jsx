@@ -1,41 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import './ProductDetails.css';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-const ProductDetails = () => {
+
+import '../styles/ProductDetails.css'; 
+
+function ProductDetails() {
+  const { id } = useParams(); 
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products')    
-      .then(response => response.json())
-      .then(data => {
-        if (data && data.length > 0) {
-          setProduct(data[0]); 
-        }
-        setLoading(false);
-      })
-      .catch(error => console.error('Error fetching product details:', error));
-  }, []);
+    axios
+      .get(`https://fakestoreapi.com/products/${id}`)
+      .then((response) => setProduct(response.data))
+      .catch((error) => setError(error));
+  }, [id]);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (!product) {
-    return <p>Product not found!</p>;
-  }
+  if (error) return <p>Error fetching product details: {error.message}</p>;
+  if (!product) return <p>Loading product details...</p>;
 
   return (
-    <div className="container">
-      <div className="product-details">
+    <div className="container"> 
+      <div className="product-details"> 
         <img src={product.image} alt={product.title} />
         <h2>{product.title}</h2>
         <p>{product.description}</p>
-        <p><strong>Price: </strong>${product.price}</p>
-        <p><strong>Category: </strong>{product.category}</p>
+        <h3>${product.price}</h3>
+        <button type="button">ADD TO CART</button>
       </div>
     </div>
   );
-};
+}
 
 export default ProductDetails;

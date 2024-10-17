@@ -3,13 +3,11 @@ import React, { useState } from "react";
 
 import AmountButtons from "./AmountButton";
 import { useCartContext } from "./cart_context";
-import { useLoginContext } from "./LoginContext"; // Import the login context
 import Button from "./Button";
 import styled from "styled-components";
 
 const AddToCart = ({ product }) => {
   const { addToCart } = useCartContext();
-  const { isLoggedIn, redirectToLogin } = useLoginContext(); // Use the login context
 
   //? Local State
   const [amount, setAmount] = useState(1);
@@ -28,19 +26,12 @@ const AddToCart = ({ product }) => {
     });
   };
 
-  const handleAddToCart = () => {
-    if (isLoggedIn) {
-      addToCart(product, amount);
-    } else {
-      redirectToLogin(); // Redirect to login if not logged in
-    }
-  };
 
   return (
     <>
     <ButtonContainer>
       <AmountButtons amount={amount} increase={increase} decrease={decrease} />
-      <Button variant='primary' onClick={handleAddToCart}>
+      <Button variant='primary' onClick={() => addToCart(product, amount)}>
           Add To Cart
       </Button>
       </ButtonContainer>

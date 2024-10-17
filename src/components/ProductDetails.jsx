@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Breadcrumb from "./Breadcrumb";
 import AddToCart from "./AddToCart";
-import { useLoginContext } from "./LoginContext"; 
 import Button from "./Button";
 import Typography from "./Typography";
 import Screen from "./Screen";
@@ -18,7 +17,6 @@ function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
 
-  const { isLoggedIn,redirectToLogin } = useLoginContext(); // Use the login context
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,12 +30,8 @@ function ProductDetails() {
   if (!product) return <p>Loading product details...</p>;
 
   const handleBuyNowClick = () => {
-    if (isLoggedIn) {
     navigate(`/BuyNow/${product.id}`);
-  }
-  else {
-    redirectToLogin(); // Redirect to login if not logged in
-  }};
+ };
 
   return (
     

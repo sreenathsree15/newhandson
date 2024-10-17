@@ -5,13 +5,11 @@ import styled from 'styled-components';
 import Button from './Button';
 import Typography from './Typography';
 import AmountButtons from './AmountButton'; // Assuming you want to include this
-import { useLoginContext } from './LoginContext'; // Use the login context
 import AddToCart from './AddToCart'; // Add to Cart component
 
 const BuyNowPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isLoggedIn, redirectToLogin } = useLoginContext();
   
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -51,11 +49,8 @@ const BuyNowPage = () => {
   const { title, price, image, description } = product;
 
   const handleBuyNowClick = () => {
-    if (isLoggedIn) {
       navigate(`/checkout`, { state: { product, amount } }); // Pass product and amount
-    } else {
-      redirectToLogin(); // Redirect to login if not logged in
-    }
+    
   };
 
   return (
@@ -64,13 +59,11 @@ const BuyNowPage = () => {
       <img src={image} alt={title} />
       <Typography.P>{description}</Typography.P>
       <Typography.H2>Price: ${price}</Typography.H2>
-      <AmountButtons amount={amount} setAmount={setAmount} />
       
       <ButtonContainer>
         <Button variant='secondary' onClick={handleBuyNowClick}>
-          BUY NOW
+          CheckOut
         </Button>
-        <AddToCart product={product} />
       </ButtonContainer>
     </Wrapper>
   );

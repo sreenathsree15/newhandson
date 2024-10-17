@@ -1,10 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 import '../styles/login.css';
 
 const SignIn = () => {
+  const navigate = useNavigate();
+
   const handleSignIn = () => {
     alert('Logged in to your account successfully!');
+    navigate('/')
   };
 
   return (

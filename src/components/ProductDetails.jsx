@@ -7,7 +7,6 @@ import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { AiOutlineStar } from "react-icons/ai";
 import Breadcrumb from "./Breadcrumb";
 import AddToCart from "./AddToCart";
-import { useLoginContext } from "./LoginContext";
 import Button from "./Button";
 import Typography from "./Typography";
 import Screen from "./Screen";
@@ -44,7 +43,6 @@ function ProductDetails() {
   const [userRating, setUserRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
 
-  const { isLoggedIn, redirectToLogin } = useLoginContext(); // Use the login context
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -66,12 +64,7 @@ function ProductDetails() {
   if (!product) return <p>Loading product details...</p>;
 
   const handleBuyNowClick = () => {
-    if (isLoggedIn) {
-      navigate(`/BuyNow/${product.id}`);
-    }
-    else {
-      redirectToLogin(); // Redirect to login if not logged in
-    }
+    navigate(`/BuyNow/${product.id}`);
   };
 
   const submitReview = () => {

@@ -11,8 +11,6 @@ import '../styles/Header.css';
 import '../styles/Products.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
-import { useLoginContext } from "./LoginContext";
-
 
 
 function Header() {
@@ -23,7 +21,6 @@ function Header() {
   const [searchTriggered, setSearchTriggered] = useState(false); 
   const [showContactModal, setShowContactModal] = useState(false);
 
-  const { isLoggedIn} = useLoginContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,11 +68,7 @@ function Header() {
   const handleShowModal = () => setShowContactModal(true);
 
   const handleViewCart = ( )=> {
-    if (isLoggedIn) {
-      navigate("/cart");;
-    } else {
-      alert("Please login to View you Cart Contents"); // Redirect to login if not logged in
-    } 
+      navigate("/cart");
 
   }
 

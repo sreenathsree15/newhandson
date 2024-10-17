@@ -10,7 +10,6 @@ import BuyNow from './components/BuyNow';
 import CartItem from './components/CartItem';
 import CartPage from './components/CartPage';
 import CheckoutPage from './components/CheckoutPage';
-import { LoginProvider } from './components/LoginContext';
 import { CartProvider } from './components/cart_context';
 
 
@@ -18,7 +17,7 @@ import { CartProvider } from './components/cart_context';
 function App() {
   return (
     <Router>
-      <LoginProvider>
+
         <CartProvider>
           <Routes>
             <Route path="/signin" element={<SignIn />} />
@@ -27,13 +26,12 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/product/:id" element={<ProductDetails />} />
 
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/cartitem" element={<CartItem />} />
-            <Route path="/BuyNow/:id" element={<BuyNow />} />
-          </Routes>
-        </CartProvider>
-      </LoginProvider>
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} /> 
+        <Route path="/cartitem" element={<CartItem />} />
+        <Route path="/BuyNow/:id" element={<BuyNow />} />
+      </Routes>
+      </CartProvider>
     </Router>
   );
 };

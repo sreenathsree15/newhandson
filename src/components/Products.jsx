@@ -10,6 +10,9 @@ import Carousel from 'react-bootstrap/Carousel';
 import '../styles/Header.css';
 import '../styles/Products.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
+import { useLoginContext } from "./LoginContext";
+
 
 
 function Header() {
@@ -19,6 +22,9 @@ function Header() {
   const [searchInput, setSearchInput] = useState(''); 
   const [searchTriggered, setSearchTriggered] = useState(false); 
   const [showContactModal, setShowContactModal] = useState(false);
+
+  const { isLoggedIn} = useLoginContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -63,6 +69,15 @@ function Header() {
 
   const handleCloseModal = () => setShowContactModal(false);
   const handleShowModal = () => setShowContactModal(true);
+
+  const handleViewCart = ( )=> {
+    if (isLoggedIn) {
+      navigate("/cart");;
+    } else {
+      alert("Please login to View you Cart Contents"); // Redirect to login if not logged in
+    } 
+
+  }
 
   return (
     <>
@@ -128,6 +143,7 @@ function Header() {
             <Nav>
               <Nav.Link href="/signin">Login</Nav.Link>
               <Nav.Link href="/signup">Sign Up</Nav.Link>
+              <Nav.Link onClick={handleViewCart}>View Cart</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -215,7 +231,6 @@ function Header() {
                 <h1>{item.title}</h1>
                 <p>{item.description}</p>
                 <h3>${item.price}</h3>
-                <button type="button">BUY</button>
                 <br></br>
                 <Link to={`/product/${item.id}`}>
                   <button type="button">View Details</button>
